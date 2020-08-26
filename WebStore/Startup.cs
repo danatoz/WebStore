@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +34,6 @@ namespace WebStore
                 app.UseDeveloperExceptionPage();
             }
 
-            var hello = _configuration["CustomHelloWorld"];
             app.UseRouting();
 
             
