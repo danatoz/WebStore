@@ -17,7 +17,8 @@ namespace WebStore.Controllers
                 FirstName = "Иван" ,
                 SurName = "Иванов" ,
                 Patronymic = "Иванович" ,
-                Age = 22
+                Age = 45,
+                Position = "Директор"
             },
             new EmployeeView
             {
@@ -25,7 +26,8 @@ namespace WebStore.Controllers
                 FirstName = "Владислав" ,
                 SurName = "Петров" ,
                 Patronymic = "Иванович" ,
-                Age = 35
+                Age = 22,
+                Position = "Заместитель директора"
             }
         };
         public IActionResult Index()

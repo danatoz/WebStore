@@ -44,6 +44,7 @@ namespace WebStore
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
                 //Маршрут по умолчанию состоит из трёх частей разделённыйх "/"
                 //Первой частью указывается имя контроллера,
                 //Второй - имя действия (метода) в контроллере,
