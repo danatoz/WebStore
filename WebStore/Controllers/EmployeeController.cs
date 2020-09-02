@@ -3,50 +3,82 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 
 namespace WebStore.Controllers
 {
+    [Route("users")]
     public class EmployeeController : Controller
     {
-        private readonly List<EmployeeView> _employees = new List<EmployeeView>
+        private readonly IEmployeesService _employeesService;
+
+        public EmployeeController(IEmployeesService employeesService)
         {
-            new EmployeeView
-            {
-                Id = 1,
-                FirstName = "Иван" ,
-                SurName = "Иванов" ,
-                Patronymic = "Иванович" ,
-                Age = 45,
-                Position = "Директор"
-            },
-            new EmployeeView
-            {
-                Id = 2,
-                FirstName = "Владислав" ,
-                SurName = "Петров" ,
-                Patronymic = "Иванович" ,
-                Age = 22,
-                Position = "Заместитель директора"
-            }
-        };
-        public IActionResult Index()
+            _employeesService = employeesService;
+        }/// <summary>
+         /// Редактирование сотрудников и создание новых сотрудников
+         /// </summary>
+         /// <param name="id"></param>
+         /// <returns></returns>
+        [HttpGet]
+        [Route("edit/{id?}")]
+        public IActionResult Edit(int? id)
         {
-            return View();
+            if (!id.HasValue)
+                return View(new EmployeeView());
+            var model = _employeesService.GetById(id.Value);
+            if (model == null)
+                return NotFound();
+            return View(model);
         }
+        [HttpPost]
+        [Route("edit/{id?}")]
+        public IActionResult Edit(EmployeeView model)
+        {
+            if (model.Id > 0)
+            {
+                var dbItem = _employeesService.GetById(model.Id);
+
+                if (ReferenceEquals(dbItem, null))
+                    return NotFound();
+
+                dbItem.FirstName = model.FirstName;
+                dbItem.SurName = model.SurName;
+                dbItem.Age = model.Age;
+                dbItem.Patronymic = dbItem.Patronymic;
+                dbItem.Position = dbItem.Position;
+            }
+            else
+            {
+                _employeesService.AddNew(model);
+            }
+            _employeesService.Commit();
+
+            return RedirectToAction(nameof(Employees));
+        }
+        [Route("all")]
         public IActionResult Employees()
         {
-            return View(_employees);
-        }
+            return View(_employeesService.GetAll());
+        }/// <summary>
+         /// подробная информация о сотруднике
+         /// </summary>
+         /// <param name="id"></param>
+         /// <returns></returns>
+        [Route("{id}")]
         public IActionResult EmployeeDetails(int id)
         {
-            //Получаем сотродника по Id
-            var employee = _employees.FirstOrDefault(t => t.Id == id);
-            //Проверка на существует ли данный сотрудник
-            if (employee == null)
-                return NotFound();//404 NotFound
-            //Возвращаем сотрудника
+            var employee = _employeesService.GetById(id);
+            if (_employeesService == null)
+                return NotFound();
             return View(employee);
+        }
+        [Route("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            _employeesService.Delete(id);
+            return RedirectToAction(nameof(Employees));
         }
     }
 }
