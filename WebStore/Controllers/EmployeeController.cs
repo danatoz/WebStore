@@ -46,8 +46,8 @@ namespace WebStore.Controllers
                 dbItem.FirstName = model.FirstName;
                 dbItem.SurName = model.SurName;
                 dbItem.Age = model.Age;
-                dbItem.Patronymic = dbItem.Patronymic;
-                dbItem.Position = dbItem.Position;
+                dbItem.Patronymic = model.Patronymic;
+                dbItem.Position = model.Position;
             }
             else
             {

@@ -28,7 +28,7 @@ namespace WebStore
             services.AddMvc(option => { option.Filters.Add(new SimpleActionFilter()); });
 
             services.AddSingleton<IEmployeesService, InMemoryEmployeesService>();
-
+            services.AddSingleton<IPhoneService, InMemoryPhoneService>();//внедрение зависимости
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

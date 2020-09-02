@@ -8,27 +8,29 @@
 <h1>PhoneList</h1>
 
 <p>
-    <a href="#">Create New</a>
+    <a asp-action="Edit" class="btn btn-success">Create New</a>
 </p>
 <table class="table">
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "PhoneDetails", new { id = item.Id })
-            </td>
-        </tr>
+    <tr>
+        <td><a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Manufacturer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Model)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "PhoneDetails", new { id = item.Id }) |
+            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash-o"></i></a>
+        </td>
+    </tr>
     }
 </table>
