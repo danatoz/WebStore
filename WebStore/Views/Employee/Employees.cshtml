@@ -1,0 +1,27 @@
+﻿@model IEnumerable<WebStore.Models.EmployeeView>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+@Html.ActionLink("Список товаров", "PhoneList", "Phone")
+<h1>Employees</h1>
+
+<p>
+    <a asp-action="Edit" class="btn btn-success">Create New</a>
+</p>
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a></td>
+            <td>@item.FirstName</td>
+            <td>@item.SurName</td>
+            <td>@item.Patronymic</td>
+            <td>
+                @Html.ActionLink("Details", "EmployeeDetails", new { id = item.Id }) |
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+    }
+</table>
