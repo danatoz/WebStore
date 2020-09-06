@@ -4,50 +4,33 @@
     ViewData["Title"] = "PhoneList";
 }
 
-@Html.ActionLink("Список сотрудников", "Employees", "Home")
+@Html.ActionLink("Список сотрудников", "Employees", "Employee")
 <h1>PhoneList</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Edit" class="btn btn-success">Create New</a>
 </p>
-<table class="table" border="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Manufacturer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "PhoneDetails", new { id = item.Id })
-                </td>
-            </tr>
-        }
-    </tbody>
+<table class="table">
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td><a asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Manufacturer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Model)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "PhoneDetails", new { id = item.Id }) |
+            <a asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash-o"></i></a>
+        </td>
+    </tr>
+    }
 </table>
