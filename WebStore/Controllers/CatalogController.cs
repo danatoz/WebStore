@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain;
 using WebStore.Infrastructure.Interfaces;
@@ -17,17 +14,17 @@ namespace WebStore.Controllers
         {
             _productService = productService;
         }
-        public IActionResult Shop(int? categoriId, int? brandId)
+        public IActionResult Shop(int? categoryId, int? brandId)
         {
-            var products = _productService.GetProducts(new ProductFilter
-            {
-                BrandId = brandId,
-                CategoryId = categoriId
-            });
+            // получаем список отфильтрованных продуктов
+            var products = _productService.GetProducts(
+                new ProductFilter { BrandId = brandId, CategoryId = categoryId });
+
+            // сконвертируем в CatalogViewModel
             var model = new CatalogView()
             {
                 BrandId = brandId,
-                CategoryId = categoriId,
+                CategoryId = categoryId,
                 Products = products.Select(p => new ProductView()
                 {
                     Id = p.Id,
@@ -37,6 +34,7 @@ namespace WebStore.Controllers
                     Price = p.Price
                 }).OrderBy(p => p.Order).ToList()
             };
+
             return View(model);
         }
         public IActionResult ProductDetails()

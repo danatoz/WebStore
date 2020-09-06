@@ -5,7 +5,7 @@
     <!--category-productsr-->
     @foreach (var parentCategory in Model)
     {
-        if (parentCategory.ChildCategories.Count > 0)//если есть дочерние категории
+        if (parentCategory.ChildCategories.Count > 0) // если есть дочерние категории
         {
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -21,26 +21,27 @@
                         <ul>
                             @foreach (var childCategory in parentCategory.ChildCategories)
                             {
-                                <li><a asp-controller="Catalog" 
-                                       asp-action="Shop" 
-                                       asp-route-categoriId="@childCategory.Id">@childCategory.Name</a></li>
+                                <li>
+                                    <a asp-controller="Catalog" asp-action="Shop"
+                                       asp-route-CategoryId="@childCategory.Id">@childCategory.Name</a>
+                                </li>
                             }
                         </ul>
                     </div>
                 </div>
             </div>
         }
-        else//если нет дочерних элементов
+        else // если нет дочерних элементов
         {
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a asp-controller="Catalog" 
-                           asp-action="Shop" 
-                           asp-route-categoriId="@parentCategory.Id">@parentCategory.Name</a>
+                        <a asp-controller="Catalog" asp-action="Shop"
+                           asp-route-CategoryId="@parentCategory.Id">@parentCategory.Name</a>
                     </h4>
                 </div>
             </div>
         }
+
     }
 </div><!--/category-products-->

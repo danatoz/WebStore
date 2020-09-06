@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
@@ -12,7 +10,7 @@ namespace WebStore.Infrastructure.Services
     {
         private readonly List<Category> _categories;
         private readonly List<Brand> _brands;
-        private List<Product> _products;
+        private readonly List<Product> _products;
 
         public InMemoryProductService()
         {
@@ -412,12 +410,16 @@ namespace WebStore.Infrastructure.Services
         public IEnumerable<Product> GetProducts(ProductFilter filter)
         {
             var products = _products;
+
             if (filter.CategoryId.HasValue)
-                products = products.Where(p =>
-                    p.CategoryId.Equals(filter.CategoryId)).ToList();
+                products = products
+                    .Where(p => p.CategoryId.Equals(filter.CategoryId))
+                    .ToList();
             if (filter.BrandId.HasValue)
-                products = products.Where(p => p.BrandId.HasValue &&
-                                               p.BrandId.Value.Equals(filter.BrandId.Value)).ToList();
+                products = products
+                    .Where(p => p.BrandId.HasValue && p.BrandId.Value == filter.BrandId.Value)
+                    .ToList();
+
             return products;
         }
     }
