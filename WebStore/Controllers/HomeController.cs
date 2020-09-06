@@ -18,11 +18,6 @@ namespace WebStore.Controllers
             return View();
         }
 
-        public IActionResult Shop()
-        {
-            return View();
-        }
-
         public IActionResult ContactUs()
         {
             return View();
@@ -49,11 +44,6 @@ namespace WebStore.Controllers
         }
 
         public IActionResult Checkout()
-        {
-            return View();
-        }
-
-        public IActionResult ProductDetails()
         {
             return View();
         }
