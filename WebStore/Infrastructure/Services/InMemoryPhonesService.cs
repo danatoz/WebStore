@@ -46,7 +46,10 @@ namespace WebStore.Infrastructure.Services
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var phone = GetById(id);
+            if(phone == null)
+                return;
+            _phoneViews.Remove(phone);
         }
 
         public IEnumerable<PhoneView> GetAll()
