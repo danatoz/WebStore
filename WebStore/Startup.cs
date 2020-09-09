@@ -32,11 +32,12 @@ namespace WebStore
             services.AddDbContext<WebStoreContext>(
                 options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IProductService, SqlProductService>();
+
             services.AddSingleton<IEmployeesService, InMemoryEmployeesService>();
 
             services.AddSingleton<IPhoneService, InMemoryPhonesService>();
 
-            services.AddSingleton<IProductService, InMemoryProductService>();
 
         }
 
