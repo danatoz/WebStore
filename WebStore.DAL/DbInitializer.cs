@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebStore.DAL
 {
@@ -435,6 +439,42 @@ namespace WebStore.DAL
                 context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT[dbo].[Products] OFF");
                 trans.Commit();
             }
+        }
+
+        public static void InitializeUsers(IServiceProvider services)
+        {
+            var roleManager = services.GetService<RoleManager<IdentityRole>>();
+            EnsureRole(roleManager, "Users");
+            EnsureRole(roleManager, "Admins");
+
+            EnsureRoleToUser(services, "Admin", "Admins", "admin@123");
+        }
+
+        private static void EnsureRoleToUser(IServiceProvider services, string userName, string roleName, string password)
+        {
+            var userManager = services.GetService<UserManager<User>>();
+            var userStore = services.GetService<IUserStore<User>>();
+
+            // если пользователь уже есть, то выходим
+            if (userStore.FindByNameAsync(userName, CancellationToken.None).Result != null)
+            {
+                return;
+            }
+
+            var admin = new User
+            {
+                UserName = userName,
+                Email = $"{userName}@domain.com"
+            };
+
+            if (userManager.CreateAsync(admin, password).Result.Succeeded) // добавляем пользователя в БД
+                userManager.AddToRoleAsync(admin, roleName).Wait(); // даем ему роль админа
+        }
+
+        private static void EnsureRole(RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            if (!roleManager.RoleExistsAsync(roleName).Result)
+                roleManager.CreateAsync(new IdentityRole(roleName)).Wait();
         }
     }
 }

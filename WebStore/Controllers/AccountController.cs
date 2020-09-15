@@ -77,6 +77,8 @@ namespace WebStore.Controllers
                 }
 
             }
+
+            await _userManager.AddToRoleAsync(user, "Users");
             await _signInManager.SignInAsync(user, false); //если успешно -производим логин
             return RedirectToAction("Index", "Home");
         }
