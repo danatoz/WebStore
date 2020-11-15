@@ -1,12 +1,12 @@
-﻿@model ProductView
+﻿@model WebStore.Models.ProductView
 @{
-    ViewData [ "Title" ] = "Товар:" + Model.Name;
+    ViewData["Title"] = "Товар:" + Model.Name;
 }
 
 <section>
     <div class="row">
         <div class="col-sm-3">
-            @await Html.PartialAsync( "Partial/_LeftSideBar")
+            @await Html.PartialAsync("Partial/_LeftSideBar")
         </div>
         <div class="col-sm-9 padding-right">
             <div class="product-details">
@@ -75,13 +75,12 @@
                         <img src="~/images/product-details/rating.png" alt="" />
                         <span>
                             <span> @Model.Price.ToString("C") </span>
-                            @*< label >Количество:</ label>
-                                <input type = "text" value = "3" /> *@
-                            <a asp-controller="Cart" 
+                            <label>Количество:</label>
+                            <input type="text" value="1" />
+                            <a asp-controller="Cart"
                                asp-action="AddToCart"
-                               asp-route-id="@Model.Id" 
-                               asp-route-returnUrl="@Context.Request.Path" 
-                               class="btn btn-fefault cart">
+                               asp-route-id="@Model.Id"
+                               asp-route-returnUrl="@Context.Request.Path" class="btn btn-default add-to-cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 Добавить в корзину
                             </a>
@@ -96,8 +95,8 @@
                     </div> <!--/product-information-->
                 </div>
             </div> <!--/product-details-->
-            @await Html.PartialAsync( "Partial/_CategoryTab")
-            @await Html.PartialAsync( "Partial/_RecommendedItems")
+            @await Html.PartialAsync("Partial/_CategoryTab")
+            @await Html.PartialAsync("Partial/_RecommendedItems")
         </div>
     </div>
 </section>
